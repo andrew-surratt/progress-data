@@ -1,0 +1,34 @@
+{
+  "name": "progress-data",
+  "version": "0.0.1",
+  "description": "Lightweight library to get data on the progress of something",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=14.17.1"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "test": "mocha -r ts-node/register test/**/*.spec.ts"
+  },
+  "keywords": [
+    "progress",
+    "data",
+    "cli",
+    "status",
+    "utility"
+  ],
+  "author": "Andrew Surratt",
+  "license": "ISC",
+  "homepage": "https://github.com/andrew-surratt/progress-data",
+  "devDependencies": {
+    "@types/chai": "4.2.19",
+    "@types/mocha": "8.2.2",
+    "@types/node": "14.17.1",
+    "chai": "4.3.4",
+    "mocha": "9.0.1",
+    "ts-node": "10.0.0",
+    "typescript": "4.3.4"
+  }
+}
