@@ -9,6 +9,9 @@ Lightweight library to get data on the progress of something
 * Datetime of above calculations
 
 ## Usage
+
+### Example with typescript
+
 ```typescript
 import {GetProgressData, Progress, ProgressCount, ProgressData} from 'progress-data';
 
@@ -37,6 +40,16 @@ const pollLongRunningTask = async() => setTimeoutPromise<number>(1000, count++);
             ` ~${progressData.timeToCompInSAvgd}s to complete.`);
     }
 })();
+```
+
+### Output
+
+```
+2021-08-05T22:46:01.322Z: 20% finished, ~4s to complete.
+2021-08-05T22:46:02.332Z: 40% finished, ~3.02s to complete.
+2021-08-05T22:46:03.337Z: 60% finished, ~2.01s to complete.
+2021-08-05T22:46:04.340Z: 80% finished, ~1s to complete.
+2021-08-05T22:46:05.346Z: 100% finished, ~0s to complete.
 ```
 
 ## Contributing
