@@ -1,12 +1,12 @@
 import {describe} from 'mocha';
-import { expect } from 'chai';
+import {expect} from 'chai';
 import * as progress from '../src/progress';
 
 /**
  * Returns mock of get date function
  * @param offsets
  */
-function mockGetDate(offsets : number[]): () => number {
+function mockGetDate(offsets: number[]): () => number {
     const epochs: number[] = offsets.reduce((prev: number[], curr, i) => {
         if (i === 0) {
             return prev.concat([Date.now() + curr]);
@@ -62,8 +62,8 @@ describe('Progress Data', () => {
         const expectedEpoch = Date.now();
         const expectedDate = new Date(expectedEpoch);
         progressInst.getCurrentDate = () => expectedEpoch;
-       expect(progressInst.getProgress(1)(0).calcDate.toISOString())
-           .to.eq(expectedDate.toISOString());
+        expect(progressInst.getProgress(1)(0).calcDate.toISOString())
+            .to.eq(expectedDate.toISOString());
     });
     it('Should return null time to complete first', () => {
         expect(progressInst.getProgress(1)(0).timeToCompInS)
