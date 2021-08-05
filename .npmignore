@@ -1,1 +1,9 @@
-# Empty .npmignore so .gitignore isn't used for npm publish
+# IDE
+.idea
+
+# Sources
+src
+test
+
+# Config
+tsconfig.json
