@@ -1,6 +1,6 @@
 {
   "name": "progress-data",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Lightweight library to get data on the progress of something",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

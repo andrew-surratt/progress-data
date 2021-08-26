@@ -99,4 +99,18 @@ describe('Progress Data', () => {
         expect(progressData3.timeToCompInSAvgd)
             .to.eq(20, 'First 10%/1s, then 10%/4s means Avg((1s/1count),(4s/1count))=2.5velocity so (2.5*8)=20s left.');
     });
+    it('Should get progress of multiple counts', () => {
+        progressInst.getCurrentDate = mockGetDate([0, 0, 1000, 0]);
+        const progressFunc = progressInst.getProgress(10);
+        const progressFunc2 = progressInst.getProgress(20);
+        progressFunc(0);
+        progressFunc2(0);
+        const progressData1 = progressFunc(1);
+        const progressData2 = progressFunc2(1);
+
+        expect(progressData1.timeToCompInS)
+            .to.eq(9, '10%/1s so 9s left');
+        expect(progressData2.timeToCompInS)
+            .to.eq(19, '5%/1s so 19s left');
+    });
 });
