@@ -24,51 +24,52 @@ export interface ProgressData {
 export type GetProgressData<T> = (progress: T) => ProgressData;
 
 export class Progress {
-    count: ProgressCount = 0;
-    total: ProgressCount = 0;
-    tPerC?: CountVelocity;
-    prevCount?: ProgressCount;
-    prevEpoch?: EpochTimeInMS;
-    prevTPerC?: CountVelocity;
-
     /**
      * Returns progress calculation function for the total.
      * @param total
      */
     getProgress(total: ProgressCount): GetProgressData<ProgressCount> {
-        this.total = total;
+        let count: ProgressCount = 0;
+        let prevCount: ProgressCount;
+        let tPerC: CountVelocity;
+        let prevTPerC: CountVelocity;
+        let prevEpoch: EpochTimeInMS;
         return (progress: ProgressCount): ProgressData => {
             // Get datetime of calculation
-            const currentDate: EpochTimeInMS = this.getCurrentDate();
-            const calcDate: Date = new Date(currentDate);
+            const currentEpoch: EpochTimeInMS = this.getCurrentDate();
+            const calcDate: Date = new Date(currentEpoch);
             if (progress < 0) {
                 // Can't have progress less than 0%
-                this.count = 0;
-            } else if (progress > this.total) {
+                count = 0;
+            } else if (progress > total) {
                 // Can't have progress greater than 100%
-                this.count = this.total;
+                count = total;
             } else {
-                this.count = progress;
+                count = progress;
             }
             // Round progress down to give realistic percent
             // (e.g. 99.5%, 99.6%, 99.7% shouldn't all show 100%)
             // TODO: might be worthwhile to have some decimal points
-            const percentComplete: PercentComplete = Math.floor((this.count / this.total) * 100);
-            // Calculate time to complete
-            if (this.prevCount !== undefined && this.prevEpoch) {
-                this.tPerC = this.calcTPerC(currentDate, this.prevEpoch, this.count, this.prevCount);
+            const percentComplete: PercentComplete = Math.floor((count / total) * 100);
+
+            // Calculate velocity
+            if (prevCount !== undefined && prevEpoch) {
+                tPerC = this.calcTPerC(currentEpoch, prevEpoch, count, prevCount);
                 // Average with previous velocity if we have it
-                this.prevTPerC = this.prevTPerC !== undefined ? (this.tPerC + this.prevTPerC) / 2 : this.tPerC;
+                prevTPerC = prevTPerC !== undefined ? (tPerC + prevTPerC) / 2 : tPerC;
             }
-            const countLeft: ProgressCount = this.total - this.count;
+
             // Estimate time to complete based on current velocity
-            const timeToCompInS: TimeToCompInS = this.tPerC !== undefined ?
-                this.roundDecimal(countLeft * this.tPerC) : null;
+            const countLeft: ProgressCount = total - count;
+            const timeToCompInS: TimeToCompInS = tPerC !== undefined ?
+                this.roundDecimal(countLeft * tPerC) : null;
             // Estimate time to complete based on average velocity
-            const timeToCompInSAvgd: TimeToCompInS = this.prevTPerC !== undefined ?
-                this.roundDecimal(countLeft * this.prevTPerC) : null;
-            this.prevCount = this.count;
-            this.prevEpoch = currentDate;
+            const timeToCompInSAvgd: TimeToCompInS = prevTPerC !== undefined ?
+                this.roundDecimal(countLeft * prevTPerC) : null;
+
+            //
+            prevCount = count;
+            prevEpoch = currentEpoch;
             return {
                 percentComplete,
                 calcDate,
