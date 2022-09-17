@@ -1,3 +1,5 @@
+[![build](https://github.com/andrew-surratt/progress-data/actions/workflows/main.yml/badge.svg)](https://github.com/andrew-surratt/progress-data/actions/workflows/main.yml)
+
 # Progress Data
 Lightweight library to get data on the progress of something
 
