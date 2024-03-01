@@ -12,6 +12,10 @@ Lightweight library to get data on the progress of something
 
 ## Usage
 
+### Install
+
+`npm i progress-data`
+
 ### Example with typescript
 
 ```typescript
